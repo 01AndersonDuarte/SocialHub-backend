@@ -1,10 +1,9 @@
-import { db } from "../database/database.connection.js";
+import { signInValidateDB, signUpValidateDB } from "../repositories/user.repository.js";
 import bcrypt from "bcrypt";
 
 export async function userSignUp(req, res, next) {
-    const { email } = req.body;
     try {
-        const user = await db.query(`SELECT * FROM users WHERE email = $1;`, [email]);
+        const user = await signUpValidateDB(req.body);
         if (user.rowCount) return res.sendStatus(409);
         next();
     } catch (error) {
@@ -13,9 +12,9 @@ export async function userSignUp(req, res, next) {
 }
 
 export async function userSignIn(req, res, next) {
-    const { email, password } = req.body;
+    const { password } = req.body;
     try {
-        const checkUser = await db.query(`SELECT * FROM users WHERE email = $1;`, [email]);
+        const checkUser = await signInValidateDB(req.body);
         if (!checkUser.rowCount) return res.sendStatus(401);
 
         const checkPassword = bcrypt.compareSync(password, checkUser.rows[0].password);

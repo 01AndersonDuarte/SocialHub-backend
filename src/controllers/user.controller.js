@@ -1,17 +1,8 @@
-import { db } from "../database/database.connection.js";
-import { v4 as uuid } from "uuid";
-import bcrypt from "bcrypt";
+import { signInDB, signUpDB } from "../repositories/user.repository.js";
 
 export async function signUp(req, res) {
-    const { name, email, password } = req.body;
-    const hash = bcrypt.hashSync(password, 10);
-
     try {
-        await db.query(`
-            INSERT INTO users (name, email, password)
-            VALUES ($1, $2, $3);`,
-            [name, email, hash]
-        );
+        await signUpDB(req.body);
         res.status(201).send("Usuário cadastrado");
     } catch (error) {
         res.status(500).send(error.message);
@@ -19,10 +10,8 @@ export async function signUp(req, res) {
 }
 
 export async function signIn(req, res) {
-    const token = uuid();
-    const { idUser } = res.locals;
     try {
-        await db.query(`INSERT INTO sessions ("userId", token) VALUES ($1, $2);`, [idUser, token]);
+        const token = await signInDB(res.locals);
         res.status(200).send({ token });
     } catch (error) {
         res.status(500).send(error.message);

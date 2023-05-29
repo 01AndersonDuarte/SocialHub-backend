@@ -58,7 +58,7 @@ export async function followersFollowing(req, res){
         const seguidores = [];
         
         result.rows.map(u=>{
-            if(u.followedId !== id){
+            if(u.followedId != id){
                 seguindo.push(u.followedId);
             }else{
                 seguidores.push(u.followerId);

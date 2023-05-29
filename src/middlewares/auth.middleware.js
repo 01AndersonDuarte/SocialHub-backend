@@ -1,10 +1,10 @@
-import { signInValidateDB, signUpValidateDB } from "../repositories/user.repository.js";
+import { signInValidateDB, signUpValidateDB } from "../repositories/auth.repository.js";
 import bcrypt from "bcrypt";
 
 export async function userSignUp(req, res, next) {
     try {
         const user = await signUpValidateDB(req.body);
-        if (user.rowCount) return res.sendStatus(409);
+        if (!user) return res.sendStatus(409);
         next();
     } catch (error) {
         res.send(500).send(error.message);

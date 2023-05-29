@@ -27,3 +27,27 @@ export async function followDB(signal, id, userId) {
         return;
     }
 }
+
+export async function followersFollowingDB(id){
+    const users = await db.query(`
+    SELECT "followerId", "followedId" FROM follow
+    WHERE "followerId" = $1 OR "followedId" = $1;`, [id]);
+
+    return (users);
+}
+
+export async function findUsersProfilesDB(usersList){
+    const profiles = await db.query(`
+    SELECT "userName", picture, "userId" FROM profile
+    WHERE "userId" IN (${usersList});`);
+
+    const profilesFormated = profiles.rows.map(p=>{
+        return {
+            userName: p.userName,
+            picture: `data:image/jpeg;base64,${p.picture.toString('base64')}`,
+            userId: p.userId
+        }
+    })
+
+    return profilesFormated;
+}

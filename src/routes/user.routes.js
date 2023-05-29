@@ -1,13 +1,13 @@
 import { Router } from "express";
 
-import schemaValidation from "../middlewares/schemaValidation.middleware.js";
-import { signUpValidate, signInValidate } from "../schemas/userValidate.schema.js";
-import { userSignUp, userSignIn } from "../middlewares/user.middleware.js";
-import { signUp, signIn } from "../controllers/user.controller.js";
+import { authValidation } from "../middlewares/authValidation.middleware.js";
+import { userProfileId, usersProfiles } from "../controllers/user.controller.js";
 
 const userRouter = Router();
 
-userRouter.post("/signup", schemaValidation(signUpValidate), userSignUp, signUp);
-userRouter.post("/signin", schemaValidation(signInValidate), userSignIn, signIn);
+userRouter.use(authValidation);
+
+userRouter.get("/get-users-profiles", usersProfiles);
+userRouter.get("/get-user-profile/:id", userProfileId);
 
 export default userRouter;

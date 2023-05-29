@@ -1,3 +1,4 @@
+import { findUserDB } from "../repositories/followers.repository.js";
 import { addPostDB, userPostsIdDB } from "../repositories/posts.repository.js";
 
 export async function addPost(req, res) {
@@ -18,7 +19,11 @@ export async function addPost(req, res) {
 }
 
 export async function userPostsId(req, res) {
-    const { id } = req.params;
+    let id = req.query.id;
+    if(!id) id = res.locals.session.userId;
+
+    const findUser = await findUserDB(id);
+    if(!findUser.rowCount) return res.status(404).send("Página não encontrada");
 
     const userPosts = await userPostsIdDB(id);
     const formatedUserPosts = userPosts.rows.map(u=>{

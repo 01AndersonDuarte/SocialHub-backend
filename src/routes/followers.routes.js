@@ -1,10 +1,14 @@
 import { Router } from "express";
 
 import { authValidation } from "../middlewares/authValidation.middleware.js";
-import { follow } from "../controllers/followers.controller.js";
+import { follow, follower, followersFollowing } from "../controllers/followers.controller.js";
 
 const followersRouter = Router();
 
-followersRouter.post("/following/:id", authValidation, follow);
+followersRouter.use(authValidation);
+followersRouter.post("/following/:id", follow);
+followersRouter.get("/follower/:id", follower);
+followersRouter.get("/followers-following/:id", followersFollowing);
+
 
 export default followersRouter;

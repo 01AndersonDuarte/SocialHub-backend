@@ -1,11 +1,6 @@
 import { db } from "../database/database.connection.js";
 
-export async function findUserDB(id) {
-    const result = await db.query(`SELECT * FROM users WHERE id = $1;`, [id]);
-    return result;
-}
-
-export async function followersRatioDB(id, userId) {
+export async function UserConnectionDB(id, userId) {
     const result = await db.query(`
         SELECT * FROM follow WHERE 
         "followerId" = $1 AND "followedId" = $2;`, [userId, id]);

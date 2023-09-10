@@ -7,7 +7,7 @@ export async function userSignUp(req, res, next) {
         if (!user) return res.sendStatus(409);
         next();
     } catch (error) {
-        res.send(500).send(error.message);
+        res.status(500).send(error.message);
     }
 }
 

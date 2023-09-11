@@ -17,3 +17,11 @@ export async function insertMessage(chat, message) {
     return await db.query(`INSERT INTO messages ("chatId", message, "senderId") 
     VALUES ($1, $2, $3);`, [chat.id, message, chat.senderId]);
 }
+
+export async function collectChats(userId){
+    return await db.query(`SELECT * FROM chats WHERE "senderId"=$1 OR "recipientId"=$1;`, [userId]);
+}
+
+export async function collectMessagesByChat(chatId, userId){
+    return await db.query(`SELECT * FROM messages WHERE "chatId"=$1;`, [chatId]);
+}

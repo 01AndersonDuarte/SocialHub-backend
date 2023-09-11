@@ -1,6 +1,6 @@
 # SocialHub
 
-SocialHub é uma rede social desenvolvida com React e Node.Js, com essa aplicação o usuário é capaz de fazer publicações com imagens, visitar perfis de outros usuários e trocar mensagens.as, cadastrar credenciais de sites e até cartões.
+SocialHub é uma rede social desenvolvida com React e Node.Js, com essa aplicação o usuário é capaz de fazer publicações com imagens, visitar perfis de outros usuários e trocar mensagens.
 
 ## Sobre:
 

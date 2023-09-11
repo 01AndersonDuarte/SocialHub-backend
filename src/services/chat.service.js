@@ -9,3 +9,20 @@ export async function sendMessage(recipientId, userId, message){
 
     return await chatRepository.insertMessage(chat.rows[0], message);
 }
+
+export async function collectChats(userId){
+    return await chatRepository.collectChats(userId);
+}
+
+export async function collectMessagesByChat(chatId, userId){
+    const messages = await chatRepository.collectMessagesByChat(chatId, userId);
+    return messages.rows.reverse();
+}
+
+// function formatMessages(messages, userId){
+//     const formattedMessages = [];
+
+//     messages.forEach(m => {
+//         if(m.senderId===userId) formatMessages.push({message: m.message, });
+//     });
+// }

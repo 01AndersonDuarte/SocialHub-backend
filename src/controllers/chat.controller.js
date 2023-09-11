@@ -11,3 +11,19 @@ export async function sendMessage(req, res) {
     await chatService.sendMessage(recipientId, userId, message);
     res.sendStatus(201);
 };
+
+export async function collectChats(req, res) {
+    const { userId } = res.locals.session;
+
+    const chats = await chatService.collectChats(userId);
+    res.send(chats);
+}
+
+export async function collectMessagesByChat(req, res) {
+    const { chatId } = req.params;
+    const { userId } = res.locals.session;
+    if(isNaN(chatId)) return res.status(401).send("Valor inválido");
+
+    const messages = await chatService.collectMessagesByChat(chatId, userId);
+    res.send(messages);
+}
